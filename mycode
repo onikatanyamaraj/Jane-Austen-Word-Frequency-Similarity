@@ -1,0 +1,26 @@
+from gensim import corpora, models, similarities
+f1 = []
+f2 = []
+f3 = []
+f = [f1, f2, f3]
+
+with open ("C:/Users\WINTOUR\Desktop\cipin1.txt") as cp1:
+    for i in range(80):
+        f1.append(cp1.readline()[:-1])
+with open ("C:/Users\WINTOUR\Desktop\cipin2.txt") as cp2:
+    for i in range(80):
+        f2.append(cp2.readline()[:-1])
+with open ("C:/Users\WINTOUR\Desktop\cipin3.txt") as cp3:
+    for i in range(80):
+        f3.append(cp3.readline()[:-1])
+
+dictionary = corpora.Dictionary(f)
+bow_corpus = [dictionary.doc2bow(i) for i in f]
+
+tfidf = models.TfidfModel(bow_corpus)
+index = similarities.MatrixSimilarity(tfidf[bow_corpus], num_features=tfidf.num_nnz)
+res_tfidf = []
+for i in range(3):
+    res_tfidf.append(index[tfidf[bow_corpus[i]]])
+
+print(res_tfidf)
